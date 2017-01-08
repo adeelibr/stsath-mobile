@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import SplashPage from './login/SplashPage';
 import LoginPage from './login/LoginPage';
+import SignupPage from './login/SignupPage';
 
 let routes = (route, navigator, data) => {
 
@@ -14,6 +15,9 @@ let routes = (route, navigator, data) => {
 		}
     case 2: {
       return <LoginPage navigator = {navigator}/>;
+		}
+    case 3: {
+      return <SignupPage navigator = {navigator}/>;
 		}
   }
 
