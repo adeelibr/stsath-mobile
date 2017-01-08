@@ -14,12 +14,20 @@ const maxDuration = 1500;
 
 export default class Splash extends Component {
 
-  componentDidMount () {
-    let {navigator} = this.props;
-    setTimeout( navigator.push({ id: 2 }) , 2000);
+  constructor (props) {
+    super(props);
   }
 
-  randomNumber (min, max) {
+  componentDidMount () {
+    setTimeout( this.goToScreen , 2000);
+  }
+
+  goToScreen = () => {
+    let {navigator} = this.props;
+    navigator.push({ id: 2 });
+  }
+
+  randomNumber = (min, max) => {
 		return Math.random() * max + min;
 	}
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
 import SplashPage from './login/SplashPage';
-import LoginhPage from './login/LoginhPage';
+import LoginPage from './login/LoginPage';
 
 let routes = (route, navigator, data) => {
 
-	let currentRoute = navigator.getCurrentRoutes();
-  console.log ('routes.js -- Route History Is:', JSON.stringify(currentRoute));
+	// let currentRoute = navigator.getCurrentRoutes();
+  // console.log ('routes.js -- Route History Is:', JSON.stringify(currentRoute));
 
 	switch (route.id) {
     case 1: {
