@@ -1,28 +1,53 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import {
-  StyleSheet,
+  Container,
+  Header, Title,
+  Content,
+  Button,
+  Icon,
   Text,
-  View
-} from 'react-native';
-import { Container, Header, Title, Button, Icon, Content } from 'native-base';
+  List, ListItem,
+  InputGroup, Input
+} from 'native-base';
 
+import { Style, StyleConstants, Fonts, Images } from '../theme';
 
 export default class LoginPage extends Component {
   render() {
     return (
       <Container>
-          <Header>
-              <Button transparent>
-                  <Icon name='ios-arrow-back' />
-              </Button>
-              <Title>Header</Title>
-              <Button transparent>
-                  <Icon name='ios-menu' />
-              </Button>
+        <Header>
+            <Button transparent>
+              <Icon name='ios-arrow-back' />
+            </Button>
+            <Title>Header</Title>
+            <Button transparent>
+              <Icon name='ios-menu' />
+            </Button>
           </Header>
+        <Content>
 
-          <Content>
-              <Text>Yo This Is Looking Good</Text>
+            <List style={{ marginTop: 100, width: 250, alignSelf: 'center' }}>
+              <ListItem>
+                <InputGroup>
+                  <Icon name="ios-person" style={{ color: StyleConstants.primary }} />
+                  <Input placeholder="Username" />
+                </InputGroup>
+              </ListItem>
+              <ListItem>
+                <InputGroup>
+                  <Icon name="ios-unlock" style={{ color: StyleConstants.primary }} />
+                  <Input placeholder="Password" secureTextEntry />
+                </InputGroup>
+              </ListItem>
+            </List>
+
+            <Button style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
+              Login
+            </Button>
+            <Text>Don't Have An Account Signup?</Text>
+
           </Content>
       </Container>
     );
@@ -35,18 +60,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  center: {
-    alignItems: 'center',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
