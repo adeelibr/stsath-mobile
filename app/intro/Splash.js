@@ -5,22 +5,27 @@ import {
   Text,
   View
 } from 'react-native';
+import { Container, Header, Title, Button, Icon, Content } from 'native-base';
+
 
 export default class Splash extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, Me Yo!
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <Container>
+          <Header>
+              <Button transparent>
+                  <Icon name='ios-arrow-back' />
+              </Button>
+              <Title>Header</Title>
+              <Button transparent>
+                  <Icon name='ios-menu' />
+              </Button>
+          </Header>
+
+          <Content>
+              <Text>Yo This Is Looking Good</Text>
+          </Content>
+      </Container>
     );
   }
 }
@@ -31,6 +36,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  center: {
+    alignItems: 'center',
   },
   welcome: {
     fontSize: 20,
