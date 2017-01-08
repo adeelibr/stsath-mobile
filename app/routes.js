@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import Splash from './intro/Splash';
+import SplashPage from './login/SplashPage';
+import LoginhPage from './login/LoginhPage';
 
 let routes = (route, navigator, data) => {
 
@@ -9,7 +10,10 @@ let routes = (route, navigator, data) => {
 
 	switch (route.id) {
     case 1: {
-      return <Splash navigator = {navigator}/>;
+      return <SplashPage navigator = {navigator}/>;
+		}
+    case 2: {
+      return <LoginPage navigator = {navigator}/>;
 		}
   }
 
