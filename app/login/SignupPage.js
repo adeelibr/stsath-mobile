@@ -11,6 +11,7 @@ import {
   InputGroup, Input
 } from 'native-base';
 
+const dismissKeyboard = require('dismissKeyboard');
 const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
@@ -31,11 +32,8 @@ export default class SignupPage extends Component {
 
   goToLoginPage = () => {
     let {navigator} = this.props;
+    dismissKeyboard();
     navigator.push({ id: 2 });
-  }
-
-  focusNextField = (nextField) => {
-    this.refs[nextField].focus();
   }
 
   processForm = () => {
@@ -76,7 +74,9 @@ export default class SignupPage extends Component {
                     value={username}
                     onChangeText={(username) => { this.setState({ username }) }}
                     blurOnSubmit={false}
-                    onSubmitEditing={() => { this.first_name.focus() }}
+                    onSubmitEditing={(event) => {
+                      this.refs.FirstName._textInput.focus();
+                    }}
                     returnKeyType="next"
                   />
                 </InputGroup>
@@ -85,11 +85,14 @@ export default class SignupPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-person-outline" style={{ color: StyleConstants.primary }} />
                   <Input 
-                    ref={(r) => this.first_name = r}
+                    ref='FirstName'
                     placeholder="First Name" 
                     value={first_name}
                     onChangeText={(first_name) => { this.setState({ first_name }) }}
-                    // onSubmitEditing={this.goToNextField('password')}
+                    blurOnSubmit={false}
+                    onSubmitEditing={(event) => {
+                      this.refs.LastName._textInput.focus();
+                    }}
                     returnKeyType="next"
                   />
                 </InputGroup>
@@ -98,11 +101,14 @@ export default class SignupPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-person-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'last_name'}
+                    ref={'LastName'}
                     placeholder="Last Name"
                     value={last_name}
                     onChangeText={(last_name) => { this.setState({ last_name }) }}
-                    // onSubmitEditing={this.goToNextField('password')}
+                    blurOnSubmit={false}
+                    onSubmitEditing={(event) => {
+                      this.refs.Email._textInput.focus();
+                    }}
                     returnKeyType="next"
                   />
                 </InputGroup>
@@ -111,11 +117,13 @@ export default class SignupPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-mail-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'email'}
+                    ref={'Email'}
                     placeholder="Email"
                     value={email}
                     onChangeText={(email) => { this.setState({ email }) }}
-                    // onSubmitEditing={this.goToNextField('password')}
+                    onSubmitEditing={(event) => {
+                      this.refs.Password._textInput.focus();
+                    }}
                     keyboardType={'email-address'}
                     returnKeyType="next"
                   />
@@ -125,11 +133,13 @@ export default class SignupPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'password'}
+                    ref={'Password'}
                     placeholder="Password" 
                     secureTextEntry
                     onChangeText={(password) => { this.setState({ password }) }}
-                    // onSubmitEditing={this.goToNextField('password')}
+                    onSubmitEditing={(event) => {
+                      this.refs.ConfirmPassword._textInput.focus();
+                    }}
                     returnKeyType="next"
                   />
                 </InputGroup>
@@ -138,7 +148,7 @@ export default class SignupPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'confirmPassword'}
+                    ref={'ConfirmPassword'}
                     placeholder="Confirm Password" 
                     secureTextEntry
                     onChangeText={(confirmPassword) => { this.setState({ confirmPassword }) }}

@@ -10,7 +10,7 @@ import {
   List, ListItem,
   InputGroup, Input
 } from 'native-base';
-
+const dismissKeyboard = require('dismissKeyboard');
 const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
@@ -26,6 +26,7 @@ export default class LoginPage extends Component {
 
   goToSignupPage = () => {
     let {navigator} = this.props;
+    dismissKeyboard();
     navigator.push({ id: 3 });
   }
 
@@ -51,11 +52,13 @@ export default class LoginPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-contact-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'username'}
+                    ref={'Username'}
                     placeholder="Username"
                     value={username}
                     onChangeText={(username) => { this.setState({ username }) }}
-                    // onSubmitEditing={this.goToNextField('password')}
+                    onSubmitEditing={(event) => {
+                      this.refs.Password._textInput.focus();
+                    }}
                     returnKeyType="next" 
                   />
                 </InputGroup>
@@ -64,7 +67,7 @@ export default class LoginPage extends Component {
                 <InputGroup borderType='regular'>
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
-                    ref={'password'}
+                    ref={'Password'}
                     placeholder="Password" 
                     secureTextEntry
                     value={password}
