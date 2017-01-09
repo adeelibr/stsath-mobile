@@ -4,7 +4,7 @@ const {height, width} = Dimensions.get('window');
 import {StyleConstants} from './StyleConstants';
 import {Fonts} from './Fonts';
 
-let BaseStyle = StyleSheet.create({
+let Style = StyleSheet.create({
 
   row: {
     flex: 1,
@@ -36,21 +36,6 @@ let BaseStyle = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 
-  textColorPrimary: {
-    color: StyleConstants.primary,
-  },
-
-  textColorWhite: {
-    color: 'white',
-  },
-
-  textColorBlack: {
-    color: StyleConstants.black,
-  },
-
-  textColorGray: {
-    color: StyleConstants.gray,
-  },
 
   b: {
     fontWeight: 'bold',
@@ -110,28 +95,13 @@ let BaseStyle = StyleSheet.create({
     height: 30,
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: '#9999',
+    borderColor: StyleConstants.primary,
     paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  btnPrimary: {
-    borderColor: StyleConstants.primary,
-    flex: 2,
-    marginVertical:2,
-    marginBottom: 4,
-    marginLeft:20,
-    height: 30,
-    borderWidth: 0.8,
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-
 });
 
-export {BaseStyle};
+export default Style;

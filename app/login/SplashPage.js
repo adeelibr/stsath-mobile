@@ -3,7 +3,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   View,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
@@ -16,15 +17,28 @@ export default class Splash extends Component {
 
   constructor (props) {
     super(props);
+    this.state = {
+    	logged: false,
+    }
   }
 
   componentDidMount () {
+  	AsyncStorage.getItem('token')
+  	.then((token) => {
+  		if (token) {
+  			this.setState({ logged: true });
+  		} else {
+  			this.setState({ logged: false });
+  		}
+  	})
+  	.done();
     setTimeout( this.goToScreen , 2000);
   }
 
   goToScreen = () => {
     let {navigator} = this.props;
-    navigator.push({ id: 2 });
+    let {logged} = this.state;
+    logged ? navigator.push({ id: 3 }) : navigator.push({ id: 2 });
   }
 
   randomNumber = (min, max) => {

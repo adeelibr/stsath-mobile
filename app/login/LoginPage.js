@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
 import {
   Container,
   Header, Title,
@@ -11,47 +11,86 @@ import {
   InputGroup, Input
 } from 'native-base';
 
+const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
 export default class LoginPage extends Component {
+  
+  constructor (props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
+  }
+
+  goToSignupPage = () => {
+    let {navigator} = this.props;
+    navigator.push({ id: 3 });
+  }
+
+  processForm = () => {
+    let {username, password} = this.state;
+    let body = {
+      username,
+      password
+    };
+    console.log(body);
+  }
+
   render() {
+    let { username, password } = this.state;
+
     return (
-      <Container>
-        <Header>
-            <Button transparent>
-              <Icon name='ios-arrow-back' />
-            </Button>
-            <Title>Header</Title>
-            <Button transparent>
-              <Icon name='ios-menu' />
-            </Button>
-          </Header>
+      <View style={styles.container}>
         <Content>
 
-            <List style={{ marginTop: 100, width: 250, alignSelf: 'center' }}>
+          <View style={{flex: 1}}>
+            <List style={styles.form}>
               <ListItem>
-                <InputGroup>
-                  <Icon name="ios-person" style={{ color: StyleConstants.primary }} />
-                  <Input placeholder="Username" />
+                <InputGroup borderType='regular'>
+                  <Icon name="ios-contact-outline" style={{ color: StyleConstants.primary }} />
+                  <Input
+                    ref={'username'}
+                    placeholder="Username"
+                    value={username}
+                    onChangeText={(username) => { this.setState({ username }) }}
+                    // onSubmitEditing={this.goToNextField('password')}
+                    returnKeyType="next" 
+                  />
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup>
-                  <Icon name="ios-unlock" style={{ color: StyleConstants.primary }} />
-                  <Input placeholder="Password" secureTextEntry />
+                <InputGroup borderType='regular'>
+                  <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
+                  <Input
+                    ref={'password'}
+                    placeholder="Password" 
+                    secureTextEntry
+                    value={password}
+                    onChangeText={(password) => { this.setState({ password }) }}
+                    onSubmitEditing={this.processForm}
+                    returnKeyType="done"  
+                  />
                 </InputGroup>
               </ListItem>
-            </List>
+            </List>   
+            <View style={styles.buttonGroup}>
+              <Button style={styles.button} info onPress={this.processForm}>
+                Signin
+              </Button>
+            </View>
 
-            <Button style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
-              Login
-            </Button>
-            <Text>Don't Have An Account Signup?</Text>
-
-          </Content>
-      </Container>
+            <TouchableOpacity style={Style.btnDefault} onPress={this.goToSignupPage}>
+              <Text style={[Style.f16, styles.text]}>Don't Have An Account? Signup</Text>
+            </TouchableOpacity>
+          </View>
+        
+        </Content>
+      </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
@@ -59,6 +98,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: StyleConstants.secondary,
   },
+
+  form: {
+    alignSelf: 'center', 
+    width: width*0.7, 
+    marginTop: height*0.2, 
+  },
+
+  buttonGroup: {
+    // flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center', 
+    alignItems: 'center', 
+    marginTop: 20,
+    marginBottom: height*0.3,
+  },
+
+  button: {
+    marginHorizontal: 10,
+  },
+
+  text: {
+    color: StyleConstants.primary,
+  },
+
 });

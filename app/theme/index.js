@@ -19,10 +19,12 @@
 
 import {Fonts} from './Fonts'
 import {StyleConstants} from './StyleConstants'
-import {Style} from './Style'
+import Style from './Style'
+import Theme from './myTheme'
 import {Images} from './Images'
 
 export {Fonts};
 export {StyleConstants};
 export {Style};
+export {Theme};
 export {Images};
