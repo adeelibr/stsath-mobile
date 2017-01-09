@@ -6,6 +6,7 @@ import SignupPage from './login/SignupPage';
 
 import WelcomePage from './dashboard/WelcomePage';
 import SignoutPage from './dashboard/SignoutPage';
+import SearchPage from './dashboard/SearchPage';
 
 let routes = (route, navigator, data) => {
 
@@ -14,19 +15,22 @@ let routes = (route, navigator, data) => {
 
 	switch (route.id) {
     case 1: {
-      return <SplashPage navigator = {navigator}/>;
+      return <SplashPage navigator={navigator}/>;
 		}
     case 2: {
-      return <LoginPage navigator = {navigator}/>;
+      return <LoginPage navigator={navigator}/>;
 		}
     case 3: {
-      return <SignupPage navigator = {navigator}/>;
+      return <SignupPage navigator={navigator}/>;
     }
     case 4: {
-      return <WelcomePage navigator = {navigator}/>;
+      return <WelcomePage navigator={navigator}/>;
     }
     case 5: {
-      return <SignoutPage navigator = {navigator}/>;
+      return <SignoutPage navigator={navigator}/>;
+    }
+    case 6: {
+      return <SearchPage navigator={navigator}/>;
 		}
   }
 
