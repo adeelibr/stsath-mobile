@@ -5,6 +5,8 @@ let StyleConstants = {
 	secondary: '#edecea',
 	danger: '#de1b22',
 	success: '#6cc644',
+
+	drawerWidth: 300,
 };
 
 export {StyleConstants};

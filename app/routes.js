@@ -4,7 +4,7 @@ import SplashPage from './login/SplashPage';
 import LoginPage from './login/LoginPage';
 import SignupPage from './login/SignupPage';
 
-import SearchPage from './dashboard/SearchPage';
+import WelcomePage from './dashboard/WelcomePage';
 import SignoutPage from './dashboard/SignoutPage';
 
 let routes = (route, navigator, data) => {
@@ -23,7 +23,7 @@ let routes = (route, navigator, data) => {
       return <SignupPage navigator = {navigator}/>;
     }
     case 4: {
-      return <SearchPage navigator = {navigator}/>;
+      return <WelcomePage navigator = {navigator}/>;
     }
     case 5: {
       return <SignoutPage navigator = {navigator}/>;
