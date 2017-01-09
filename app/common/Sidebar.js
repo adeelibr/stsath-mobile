@@ -9,26 +9,22 @@ import { Container, Content, List, ListItem, Text, Icon, Badge } from 'native-ba
 
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
-let Sidebar = (props) => {
-
-	let goToScreen = (id) => {
-		navigator.push({ id: id });
-	};
+let Sidebar = ({ navigator }) => {
 
 	return (
-		<Container>
+		<Container style={styles.container}>
       <Content>
         <List>
-          <ListItem iconLeft>
-            <Icon name="ios-aperture-outline" style={styles.icon} />
+          <ListItem iconLeft onPress={() => { navigator.push({ id: 4 }) }}>
+            <Icon name="ios-aperture-outline" style={Style.icon} />
             <Text style={styles.menuName}>Dashboard</Text>
           </ListItem>
-          <ListItem iconLeft>
-            <Icon name="ios-search-outline" style={styles.icon} />
+          <ListItem iconLeft onPress={() => { navigator.push({ id: 6 }) }}>
+            <Icon name="ios-search-outline" style={Style.icon} />
             <Text style={styles.menuName}>Search</Text>
           </ListItem>
-          <ListItem iconLeft onPress={goToScreen(2)}>
-            <Icon name="ios-log-out" style={styles.icon} />
+          <ListItem iconLeft onPress={() => { navigator.push({ id: 5 }) }}>
+            <Icon name="ios-log-out" style={Style.icon} />
             <Text style={styles.menuName}>Signout</Text>
           </ListItem>
        	</List>
@@ -43,11 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: StyleConstants.secondary,
   },
-
-  icon: {
-  	color: StyleConstants.primary
-  },
-
+  
   menuName: {
   	color: StyleConstants.primary,
   },
