@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Dimensions, TouchableOpacity, AsyncStorage } from 'react-native';
 import {
   Container,
   Header, Title,
@@ -14,11 +14,14 @@ const dismissKeyboard = require('dismissKeyboard');
 const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
+import LoginAPI from '../api/LoginAPI';
+
 export default class LoginPage extends Component {
   
   constructor (props) {
     super(props);
     this.state = {
+      errors: {},
       username: '',
       password: '',
     };
@@ -32,15 +35,30 @@ export default class LoginPage extends Component {
 
   processForm = () => {
     let {username, password} = this.state;
-    let body = {
-      username,
-      password
-    };
-    console.log(body);
+    let { navigator } = this.props;
+    let body = { username, password };
+
+    LoginAPI(body)
+      .then((res) => {
+        console.log(res);
+        if (!res.success) {
+          const errors = res.errors ? res.errors : {};
+          errors.summary = res.message;
+          this.setState({ errors });
+        } else {
+          AsyncStorage.setItem('token', res.token);
+          navigator.push({ id: 4 });
+        }
+      })
+      .catch((error) => {
+        console.log('Error Is: ', error);
+      })
   }
 
   render() {
-    let { username, password } = this.state;
+    let { username, password, errors } = this.state;
+    let usernameInvalid = errors.username ? true : false;
+    let passwordInvalid = errors.password ? true : false;
 
     return (
       <View style={styles.container}>
@@ -48,8 +66,9 @@ export default class LoginPage extends Component {
 
           <View style={{flex: 1}}>
             <List style={styles.form}>
+              {errors.summary && <Text style={Style.errorMsg}>{errors.summary}</Text>}
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={usernameInvalid} >
                   <Icon name="ios-contact-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'Username'}
@@ -64,7 +83,7 @@ export default class LoginPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={passwordInvalid} >
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'Password'}

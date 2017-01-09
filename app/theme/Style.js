@@ -24,6 +24,16 @@ let Style = StyleSheet.create({
     alignItems: 'center',
   },
 
+  errorMsg: {
+    textAlign: 'center',
+    color: StyleConstants.danger,
+  },
+
+  successMsg: {
+    textAlign: 'center',
+    color: StyleConstants.success,
+  },
+
   listRow: {
     padding: 10,
     borderWidth: 0,

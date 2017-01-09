@@ -15,12 +15,15 @@ const dismissKeyboard = require('dismissKeyboard');
 const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
+import SignupAPI from '../api/SignupAPI';
 
 export default class SignupPage extends Component {
 
   constructor (props) {
     super(props);
     this.state = {
+      success: false,
+      errors: {},
       username: '',
       first_name: '',
       last_name: '',
@@ -37,20 +40,36 @@ export default class SignupPage extends Component {
   }
 
   processForm = () => {
-    let {username, first_name, last_name, email, password, confirmPassword} = this.state;
-    let body = {
-      username,
-      first_name,
-      last_name,
-      email,
-      password,
-      confirmPassword
-    };
-    console.log(body);
+    let { username, first_name, last_name, email, password, confirmPassword } = this.state;
+    let body = { username, first_name, last_name, email, password, confirmPassword };
+
+    SignupAPI(body)
+      .then((res) => {
+        console.log(res);
+        if (!res.success) {
+          const errors = res.errors ? res.errors : {};
+          errors.summary = res.message;
+          this.setState({ errors, success: false });
+        } else {
+          this.setState({ success: res.success, errors: {} });
+        }
+      })
+      .catch((error) => {
+        console.log('Error Is: ', error);
+      })
   }
 
   render() {
     let {username, first_name, last_name, email, password, confirmPassword} = this.state;
+    let { errors, success } = this.state;
+    let usernameInvalid = errors.username ? true : false;
+    let fnameInvalid = errors.first_name ? true : false;
+    let lnameInvalid = errors.last_name ? true : false;
+    let emailInvalid = errors.email ? true : false;
+    let passwordInvalid = errors.password ? true : false;
+    let cPassInvalid = errors.confirmPassword ? true : false;
+
+    let message = 'Account Has Been Created! Go To Login Page To Access It';
 
     return (
       <View style={styles.container}>
@@ -65,8 +84,10 @@ export default class SignupPage extends Component {
 
           <View style={{flex: 1}}>
             <List style={styles.form}>
+              {success && <Text style={Style.successMsg}>{message}</Text>}
+              {errors.summary && <Text style={Style.errorMsg}>{errors.summary}</Text>}
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={usernameInvalid} >
                   <Icon name="ios-contact-outline" style={{ color: StyleConstants.primary }} />
                   <Input 
                     ref="username"
@@ -82,7 +103,7 @@ export default class SignupPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={fnameInvalid} >
                   <Icon name="ios-person-outline" style={{ color: StyleConstants.primary }} />
                   <Input 
                     ref='FirstName'
@@ -98,7 +119,7 @@ export default class SignupPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={lnameInvalid} >
                   <Icon name="ios-person-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'LastName'}
@@ -114,7 +135,7 @@ export default class SignupPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={emailInvalid} >
                   <Icon name="ios-mail-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'Email'}
@@ -130,7 +151,7 @@ export default class SignupPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={passwordInvalid} >
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'Password'}
@@ -145,7 +166,7 @@ export default class SignupPage extends Component {
                 </InputGroup>
               </ListItem>
               <ListItem>
-                <InputGroup borderType='regular'>
+                <InputGroup borderType='regular' error={cPassInvalid} >
                   <Icon name="ios-lock-outline" style={{ color: StyleConstants.primary }} />
                   <Input
                     ref={'ConfirmPassword'}
@@ -159,7 +180,7 @@ export default class SignupPage extends Component {
               </ListItem>
             </List>   
             <View style={styles.buttonGroup}>
-              <Button style={styles.button} info>
+              <Button style={styles.button} info onPress={this.processForm}>
                 Signin
               </Button>
             </View>

@@ -38,7 +38,7 @@ export default class Splash extends Component {
   goToScreen = () => {
     let {navigator} = this.props;
     let {logged} = this.state;
-    logged ? navigator.push({ id: 3 }) : navigator.push({ id: 2 });
+    logged ? navigator.push({ id: 4 }) : navigator.push({ id: 2 });
   }
 
   randomNumber = (min, max) => {
