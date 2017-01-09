@@ -7,7 +7,7 @@ let configureScene = (route) => {
       return { ...Navigator.SceneConfigs.FloatFromBottom, gestures: false }
     }
     default: {
-			return { ...Navigator.SceneConfigs.FloatFromBottomAndroid, gestures: false }
+			return { ...Navigator.SceneConfigs.FadeAndroid, gestures: false }
     }
   }
 }
