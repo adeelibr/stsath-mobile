@@ -17,18 +17,13 @@ import {
 
 const dismissKeyboard = require('dismissKeyboard');
 const {height, width} = Dimensions.get('window');
+import * as Animatable from 'react-native-animatable';
+
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
 import Sidebar from '../common/Sidebar';
 
 export default class WelcomePage extends Component {
-
-  constructor (props) {
-    super(props);
-    this.state = {
-    	word: '',
-    };
-  }
 
   componentDidMount () {
   	// AsyncStorage.removeItem('token');
@@ -46,7 +41,7 @@ export default class WelcomePage extends Component {
     		ref={(ref) => this.drawer = ref}
 	      drawerWidth={StyleConstants.drawerWidth}
 	      drawerPosition={DrawerLayoutAndroid.positions.Left}
-	      renderNavigationView={() => <Sidebar navigator={navigator} />)}
+	      renderNavigationView={() => <Sidebar navigator={navigator} />}
       >
 	      <View style={styles.container}>
 	        <Header>
@@ -61,8 +56,14 @@ export default class WelcomePage extends Component {
 
 	        <Content>
 	          <Card>
-	          	<CardItem header>                        
-	              <Text>Welcome To Stsath!</Text>
+	          	<CardItem header>
+	          		<Animatable.View
+									animation="pulse"
+						  		duration={1500}
+						  		easing="ease-in"
+					      >                        
+	              	<Text>Welcome To Stsath!</Text>
+	              </Animatable.View>
 	            </CardItem>
 	            <CardItem>                        
 	              <Text>
@@ -91,6 +92,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: StyleConstants.secondary,
   },
-  
-
 });
