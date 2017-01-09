@@ -34,6 +34,10 @@ let Style = StyleSheet.create({
     color: StyleConstants.success,
   },
 
+  icon: {
+    color: StyleConstants.primary,
+  },
+
   listRow: {
     padding: 10,
     borderWidth: 0,
