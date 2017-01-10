@@ -5,7 +5,7 @@ import {
 	Card, CardItem,
 	List, ListItem, 
 	Text,
-	Icon 
+	Button, Icon 
 } from 'native-base';
 
 import { Style, StyleConstants, Fonts, Images } from '../../theme';
@@ -28,20 +28,35 @@ export default class Report extends Component {
   	let wordsCount = info.positiveWordsCount + info.negativeWordsCount;
   	return (
   		<List>
-        <ListItem >
-          <Text>Total Words Found: {wordsCount}</Text>
+        <ListItem>
+          <Text>
+          	<Text style={Style.b}>Total Words Found: </Text> 
+          	{wordsCount}
+          </Text>
         </ListItem>
         <ListItem>
-          <Text>Total Positive Words Found: {info.positiveWordsCount}</Text>
+          <Text>
+          	<Text style={Style.b}>Total Positive Words Found: </Text> 
+          	{info.positiveWordsCount}
+          </Text>
         </ListItem>
         <ListItem>
-          <Text>Positive Words: {this.renderWords(info.positiveWords)}</Text>
+          <Text>
+          	<Text style={Style.b}>Positive Words: </Text> 
+          	{this.renderWords(info.positiveWords)}
+          </Text>
         </ListItem>
         <ListItem>
-          <Text>Total Negative Words Found: {info.negativeWordsCount}</Text>
+          <Text>
+          	<Text style={Style.b}>Total Negative Words Found: </Text> 
+          	{info.negativeWordsCount}
+          </Text>
         </ListItem>
         <ListItem>
-          <Text>Negative Words: {this.renderWords(info.negativeWords)}</Text>
+          <Text>
+          	<Text style={Style.b}>Negative Words: </Text> 
+          	{this.renderWords(info.negativeWords)}
+          </Text>
         </ListItem>
       </List>
   	);
@@ -61,6 +76,9 @@ export default class Report extends Component {
   }
 
   render() {
+  	let {navigator} = this.props;
+  	let {data} = this.state.data;
+
     return (
       <Container style={styles.container}>
         <Content>
@@ -79,6 +97,14 @@ export default class Report extends Component {
             </CardItem>
           </Card>
           {this.analysis()}
+          <Button block info iconRight 
+	          onPress={() => { 
+	          	navigator.push({ id: 7, tweets: data }) 
+	          }}
+	          >
+	          	Show Detailed Result
+	          	<Icon name='ios-arrow-forward' />
+          </Button>
         </Content>
       </Container>
     );

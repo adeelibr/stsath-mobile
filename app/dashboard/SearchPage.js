@@ -52,11 +52,11 @@ export default class SearchPage extends Component {
   processForm = () => {
   	let {word, token} = this.state;
   	// console.log(this.state.word);
-  	this.setState({ showSpinner: true });
+  	this.setState({ success: false, showSpinner: true });
 
   	SearchAPI(word, token)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (!res.success) {
           const errors = res.errors ? res.errors : {};
           errors.summary = res.message;
@@ -87,7 +87,7 @@ export default class SearchPage extends Component {
   	}
 
   	let renderReport = () => { 
-  		return success ? <Report data={info}/> : <View/> 
+  		return success ? <Report data={info} navigator={navigator}/> : <View/> 
   	};
 
     return (
@@ -106,24 +106,32 @@ export default class SearchPage extends Component {
 	          <Button transparent onPress={this.openDrawer}>
 	            <Icon name='ios-menu'/>
 	          </Button>
-	        </Header>
-
+	        </Header>     
+	        
 	        <Content>
-	          <InputGroup iconRight>
-              <Icon name='ios-search-outline' style={Style.icon} />
-              <Input 
-              	ref={(ref) => this.word = ref}
-              	placeholder="Search A Word .."
-                value={word}
-                onChangeText={(word) => { this.setState({ word }) }}
-                onSubmitEditing={this.processForm}
-                blurOnSubmit={true}
-                returnKeyType="done" 
-              />
-            </InputGroup>
+            <Header searchBar rounded>
+	            <InputGroup>
+	              <Icon name="ios-search" style={Style.icon}/>
+	              <Input 
+	              	ref={(ref) => this.word = ref}
+	              	placeholder="Search A Word .."
+	                value={word}
+	                onChangeText={(word) => { this.setState({ word }) }}
+	                onSubmitEditing={this.processForm}
+	                blurOnSubmit={true}
+	                returnKeyType="done" 
+              	/>
+	              <Icon name="ios-beaker" style={Style.icon}/>
+	            </InputGroup>
+	            <Button transparent onPress={this.processForm}>
+	              Search
+	            </Button>
+          	</Header>
 
             {renderSpinner()}
             {renderReport()}
+
+            <View style={styles.bottomSpace} />
 	        </Content>
 	      </Container>
       </DrawerLayoutAndroid>
@@ -132,9 +140,15 @@ export default class SearchPage extends Component {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: StyleConstants.secondary,
   },
+
+  bottomSpace: {
+    marginVertical: 5,
+  },
+
 });
