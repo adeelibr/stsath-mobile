@@ -22,6 +22,8 @@ const {height, width} = Dimensions.get('window');
 import { Style, StyleConstants, Fonts, Images } from '../theme';
 
 import Sidebar from '../common/Sidebar';
+import SearchAPI from '../api/SearchAPI';
+import Report from './components/Report';
 
 export default class SearchPage extends Component {
 
@@ -30,7 +32,17 @@ export default class SearchPage extends Component {
     this.state = {
     	showSpinner: false,
     	word: '',
+    	token: '',
+    	info: {},
     };
+  }
+
+  componentDidMount () {
+  	AsyncStorage.getItem('token')
+  		.then((token) => this.setState({ token }))
+  		.catch((error) => {
+  			console.log('Error in SearchPage.js ComponentDidMount ', error);
+  		});
   }
 
   openDrawer = () => {
@@ -38,28 +50,45 @@ export default class SearchPage extends Component {
   }
 
   processForm = () => {
-  	console.log(this.state.word);
-  	this.setState({ showSpinner: true });	
+  	let {word, token} = this.state;
+  	// console.log(this.state.word);
+  	this.setState({ showSpinner: true });
+
+  	SearchAPI(word, token)
+      .then((res) => {
+        console.log(res);
+        if (!res.success) {
+          const errors = res.errors ? res.errors : {};
+          errors.summary = res.message;
+          this.setState({ 
+        		success: false, errors, showSpinner: false 
+          });
+        } else {
+          this.setState({ 
+        		success: res.success, errors: {}, info: res, showSpinner: false 
+          });
+        }
+      })
+      .catch((error) => {
+        console.log('Error Is: ', error);
+      })	
   }
 
   render() {
   	let {navigator} = this.props;
-  	let {word} = this.state;
-
-  	let renderReport = () => {
-  		return (
-  			<Text>This is report</Text>
-  		);
-  	};
+  	let {word, success, info, showSpinner} = this.state;
 
   	let renderSpinner = () => {
-  		let {showSpinner} = this.state;
   		return (
   			<View style={Style.center}>
   				{showSpinner && <Spinner color={StyleConstants.primary}/>}
   			</View>
   		);
   	}
+
+  	let renderReport = () => { 
+  		return success ? <Report data={info}/> : <View/> 
+  	};
 
     return (
     	<DrawerLayoutAndroid
@@ -94,6 +123,7 @@ export default class SearchPage extends Component {
             </InputGroup>
 
             {renderSpinner()}
+            {renderReport()}
 	        </Content>
 	      </Container>
       </DrawerLayoutAndroid>
@@ -105,7 +135,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: StyleConstants.secondary,
   },
 });
